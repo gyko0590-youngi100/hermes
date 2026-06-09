@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 노래 콘테스트 영상 업로드</title>
+  <style>
+    :root{--bg:#07111f;--panel:#0d1b31;--panel2:#102140;--text:#e8eefc;--muted:#9bb0d0;--line:#20385f;--accent:#6ee7ff;--accent2:#8b5cf6;--danger:#fb7185;--ok:#34d399}
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple SD Gothic Neo",sans-serif;background:radial-gradient(circle at top,#112548 0,#07111f 45%,#050b15 100%);color:var(--text)}
+    .wrap{max-width:1080px;margin:0 auto;padding:40px 20px 56px}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:stretch}
+    .card{background:linear-gradient(180deg,rgba(16,33,64,.92),rgba(9,18,33,.92));border:1px solid rgba(110,231,255,.15);border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.35);backdrop-filter:blur(10px)}
+    .hero-main{padding:28px}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid rgba(110,231,255,.25);border-radius:999px;color:var(--accent);font-size:13px;font-weight:700}
+    h1{margin:16px 0 12px;font-size:clamp(32px,5vw,56px);line-height:1.03;letter-spacing:-.03em}
+    p{margin:0;color:var(--muted);line-height:1.7}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+    .mini{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+    .mini b{display:block;margin-bottom:6px}
+    .side{padding:22px;display:flex;flex-direction:column;gap:14px}
+    .step{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+    .step strong{display:block;margin-bottom:6px}
+    .form{margin-top:20px;padding:24px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label{display:block;font-size:13px;color:#c7d5ee;margin:0 0 8px}
+    input,button{width:100%;border-radius:14px;border:1px solid var(--line);background:#06111f;color:var(--text);padding:14px 16px;font:inherit}
+    input::placeholder{color:#6f84ab}
+    input:focus{outline:2px solid rgba(110,231,255,.5);border-color:transparent}
+    .full{grid-column:1/-1}
+    .note{margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.18);color:#cbffe9}
+    .danger{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.18);color:#ffd3da}
+    .actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+    .btn{cursor:pointer;font-weight:800}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04111e;border:none}
+    .btn.secondary{background:transparent}
+    .footer{margin-top:18px;color:var(--muted);font-size:13px}
+    code{background:rgba(255,255,255,.08);padding:.2em .45em;border-radius:8px}
+    .status{margin-top:12px;font-weight:700}
+    .status.ok{color:var(--ok)}
+    .status.err{color:var(--danger)}
+    @media (max-width:880px){.hero{grid-template-columns:1fr}.form-grid,.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="card hero-main">
+        <div class="badge">영상 업로드 링크 · Mac mini 자동 저장</div>
+        <h1>직원 노래 콘테스트<br/>영상 제출 페이지</h1>
+        <p>이 페이지에서 업로드한 영상은 맥미니 폴더에 저장됩니다. 누구나 링크로 접속해서 제출할 수 있게 만든 화면입니다.</p>
+        <div class="grid">
+          <div class="mini"><b>허용 형식</b><span>.mp4, .mov</span></div>
+          <div class="mini"><b>권장 길이</b><span>휴대폰 기준 약 1분 내외 영상</span></div>
+          <div class="mini"><b>파일명 규칙</b><span>업로드시간_참가자명 또는 팀명</span></div>
+          <div class="mini"><b>공개 방식</b><span>링크만 공유, 누구나 업로드 가능</span></div>
+        </div>
+      </div>
+      <aside class="card side">
+        <div class="step"><strong>1. 링크 열기</strong><span>참가자에게 이 주소를 전달합니다.</span></div>
+        <div class="step"><strong>2. 정보 입력</strong><span>이름 또는 팀명은 필수입니다.</span></div>
+        <div class="step"><strong>3. 파일 선택</strong><span>mp4 또는 mov 영상 파일을 업로드합니다.</span></div>
+        <div class="step"><strong>4. 자동 저장</strong><span>서버(Mac mini) 폴더로 바로 저장됩니다.</span></div>
+      </aside>
+    </section>
+
+    <section class="card form">
+      <form id="uploadForm">
+        <div class="form-grid">
+          <div>
+            <label for="submitter">참가자명 또는 팀명</label>
+            <input id="submitter" name="submitter" type="text" placeholder="예: 혁신1팀 / 홍길동" required />
+          </div>
+          <div>
+            <label for="contact">연락처(선택)</label>
+            <input id="contact" name="contact" type="text" placeholder="예: 010-1234-5678" />
+          </div>
+          <div class="full">
+            <label for="video">영상 파일 업로드</label>
+            <input id="video" name="video" type="file" accept=".mp4,.mov,video/mp4,video/quicktime" required />
+          </div>
+          <div class="full">
+            <label for="rule">저장 규칙</label>
+            <input id="rule" type="text" value="업로드시간_참가자명또는팀명" readonly />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="submit">업로드 시작</button>
+          <button class="btn secondary" type="reset">초기화</button>
+        </div>
+        <div id="status" class="status"></div>
+        <div class="note">업로드 시 <b>참가자명 또는 팀명</b>을 반드시 입력해 주세요. 파일명은 업로드 시간과 입력값을 조합해 저장합니다.</div>
+        <div class="note danger">주의: 실제 저장을 하려면 맥미니에서 업로드 수신 서버가 실행 중이어야 합니다. 아래 server.py를 같이 사용하세요.</div>
+        <div class="footer">권장 파일명 예시: <code>2026-06-09_1430_혁신1팀.mov</code></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const statusEl = document.getElementById('status');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const video = document.getElementById('video').files[0];
+      const submitter = document.getElementById('submitter').value.trim();
+      if (!video || !submitter) {
+        statusEl.textContent = '참가자명/팀명과 영상 파일을 확인해 주세요.';
+        statusEl.className = 'status err';
+        return;
+      }
+      const fd = new FormData(form);
+      try {
+        const res = await fetch('/upload', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '업로드 실패');
+        statusEl.textContent = `업로드 완료: ${data.saved_as}`;
+        statusEl.className = 'status ok';
+        form.reset();
+      } catch (err) {
+        statusEl.textContent = `업로드 실패: ${err.message}`;
+        statusEl.className = 'status err';
+      }
+    });
+  </script>
+</body>
+</html>
